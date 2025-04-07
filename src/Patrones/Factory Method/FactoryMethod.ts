@@ -10,14 +10,14 @@ interface INotification {
 // Clase Mail que implementa la interface INotification
 class EmailNotification implements INotification {
   send(mensaje: string): string {
-    return `Envío de email: ${mensaje}`;
+    return `Email enviado: ${mensaje}`;
   }
 }
 
 // Clase SMS que implementa la interface INotification
 class SMSNotification implements INotification {
   send(mensaje: string): string {
-    return `Envío de SMS: ${mensaje}`;
+    return `SMS enviado: ${mensaje}`;
   }
 }
 
