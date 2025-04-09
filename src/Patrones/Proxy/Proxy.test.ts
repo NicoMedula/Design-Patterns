@@ -1,66 +1,24 @@
-/**
- * Tests unitarios para el patrón Proxy usando Jest
- */
-import { BaseDeDatosProxy } from './Proxy'; // Asegúrate de que la ruta sea correcta
+// src/Payment.test.ts
 
-// Mock para console.log para evitar salida durante las pruebas
-jest.spyOn(console, 'log').mockImplementation(() => {});
+import { Cash, CreditCard, PaymentProxy } from "./Proxy";
 
-describe('BaseDeDatosProxy', () => {
-  // Test de autenticación exitosa
-  test('debe autenticar correctamente con credenciales válidas', () => {
-    const proxy = new BaseDeDatosProxy('admin', 'secreto');
-    expect(proxy.autenticar()).toBe(true);
+describe("Patrón Proxy - Pagos", () => {
+  test("Pago en efectivo válido", () => {
+    const efectivo = new PaymentProxy(new Cash());
+    expect(efectivo.pay(100)).toBe(
+      "Pagando $100 en efectivo. [Proxy: Pago registrado exitosamente]"
+    );
   });
 
-  // Test de autenticación fallida
-  test('debe rechazar la autenticación con credenciales inválidas', () => {
-    const proxy = new BaseDeDatosProxy('usuario', 'contraseñaIncorrecta');
-    expect(proxy.autenticar()).toBe(false);
+  test("Pago con tarjeta válido", () => {
+    const tarjeta = new PaymentProxy(new CreditCard());
+    expect(tarjeta.pay(200)).toBe(
+      "Pagando $200 con tarjeta de crédito. [Proxy: Pago registrado exitosamente]"
+    );
   });
 
-  // Test de ejecución de consulta con autenticación correcta
-  test('debe ejecutar consulta cuando el usuario está autenticado', async () => {
-    const proxy = new BaseDeDatosProxy('admin', 'secreto');
-    proxy.autenticar();
-    
-    const resultados = await proxy.ejecutarConsulta('SELECT * FROM usuarios');
-    expect(resultados).toEqual(['resultado1', 'resultado2', 'resultado3']);
-    
-    const registros = proxy.obtenerRegistroOperaciones();
-    expect(registros.length).toBe(1);
-    expect(registros[0]).toContain('Consulta: SELECT * FROM usuarios');
-  });
-
-  // Test de rechazo de consulta insegura
-  test('debe rechazar consultas inseguras', async () => {
-    const proxy = new BaseDeDatosProxy('admin', 'secreto');
-    proxy.autenticar();
-    
-    await expect(proxy.ejecutarConsulta('DROP TABLE usuarios'))
-      .rejects
-      .toThrow('Consulta rechazada por motivos de seguridad');
-  });
-
-  // Test de inserción de registro
-  test('debe insertar registro correctamente', async () => {
-    const proxy = new BaseDeDatosProxy('admin', 'secreto');
-    proxy.autenticar();
-    
-    const resultado = await proxy.insertarRegistro('usuarios', { id: 1, nombre: 'Juan' });
-    expect(resultado).toBe(true);
-    
-    const registros = proxy.obtenerRegistroOperaciones();
-    expect(registros.length).toBe(1);
-    expect(registros[0]).toContain('Inserción en tabla usuarios');
-  });
-
-  // Test de denegación de acceso sin autenticación
-  test('debe denegar acceso a ejecutarConsulta sin autenticación', async () => {
-    const proxy = new BaseDeDatosProxy('usuario', 'contraseñaIncorrecta');
-    
-    await expect(proxy.ejecutarConsulta('SELECT * FROM usuarios'))
-      .rejects
-      .toThrow('Acceso denegado: Usuario no autenticado');
+  test("Monto inválido (0 o negativo)", () => {
+    const tarjeta = new PaymentProxy(new CreditCard());
+    expect(tarjeta.pay(0)).toBe("El monto debe ser mayor a cero.");
   });
 });
