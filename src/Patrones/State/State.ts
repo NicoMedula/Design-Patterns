@@ -1,13 +1,13 @@
 // Interfaz del Estado
 // Define las operaciones que deben implementar los diferentes estados de la lámpara.
-interface State {
+export interface State {
     pressSwitch(context: LampContext): void;
     showState(): void;
   }
   
   // Clase Contexto
   // Representa el objeto principal (la lámpara) que cambia su comportamiento dependiendo del estado actual.
-  class LampContext {
+  export class LampContext {
     private state: State;
   
     constructor() {
@@ -33,7 +33,7 @@ interface State {
   
   // Estado Apagado
   // Implementa el comportamiento de la lámpara cuando está apagada.
-  class OffState implements State {
+  export class OffState implements State {
     pressSwitch(context: LampContext): void {
       console.log("Cambiando a estado ENCENDIDO");
       context.setState(new OnState());
@@ -46,7 +46,7 @@ interface State {
   
   // Estado Encendido
   // Implementa el comportamiento de la lámpara cuando está encendida.
-  class OnState implements State {
+  export class OnState implements State {
     pressSwitch(context: LampContext): void {
       console.log("Cambiando a estado INTERMITENTE");
       context.setState(new BlinkingState());
@@ -59,7 +59,7 @@ interface State {
   
   // Estado Intermitente
   // Implementa el comportamiento de la lámpara cuando está parpadeando.
-  class BlinkingState implements State {
+  export class BlinkingState implements State {
     pressSwitch(context: LampContext): void {
       console.log("Cambiando a estado APAGADO");
       context.setState(new OffState());
@@ -70,14 +70,3 @@ interface State {
     }
   }
   
-  // Ejecución
-  // Creamos una nueva instancia de la lámpara e interactuamos con ella a través de los estados.
-  const lamp = new LampContext();
-  
-  lamp.showState();     // Muestra: La lámpara está apagada
-  lamp.pressSwitch();   // Cambia a estado encendido
-  lamp.showState();     // Muestra: La lámpara está encendida
-  lamp.pressSwitch();   // Cambia a estado intermitente
-  lamp.showState();     // Muestra: La lámpara está intermitente
-  lamp.pressSwitch();   // Cambia a estado apagado
-  lamp.showState();     // Muestra: La lámpara está apagada  
