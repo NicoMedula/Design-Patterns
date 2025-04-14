@@ -1,9 +1,5 @@
-// src/Payment.ts
 
-// INTERFAZ: todos los métodos de pago implementan esta interfaz
-export interface Payment {
-  pay(amount: number): string;
-}
+import { Payment } from "./IPayment";
 
 // CLASE REAL: paga en efectivo
 export class Cash implements Payment {
