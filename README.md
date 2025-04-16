@@ -1,0 +1,1 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e180c6198b174311a5bb8cc7c2cd79b3)](https://app.codacy.com/gh/NicoMedula/Design-Patterns/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)

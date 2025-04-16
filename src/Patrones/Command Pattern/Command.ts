@@ -10,12 +10,12 @@ class Light {
   }
   
   // Comando (Command)
-  interface Command {
+  interface ICommand {
     execute(): string;
   }
   
   // Comandos concretos
-  class TurnOnLightCommand implements Command {
+  class TurnOnLightCommand implements ICommand {
     constructor(private light: Light) {}
   
     execute(): string {
@@ -23,7 +23,7 @@ class Light {
     }
   }
   
-  class TurnOffLightCommand implements Command {
+  class TurnOffLightCommand implements ICommand {
     constructor(private light: Light) {}
   
     execute(): string {
@@ -33,9 +33,9 @@ class Light {
   
   // Invocador (Invoker): ejecuta comandos sin saber detalles
   class RemoteControl {
-    private command: Command | null = null;
+    private command: ICommand | null = null;
   
-    setCommand(command: Command) {
+    setCommand(command: ICommand) {
       this.command = command;
     }
   
