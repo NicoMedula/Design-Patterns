@@ -1,0 +1,2 @@
+# Design-Patterns
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1e864bedcb3149008aee2db6e80ea457)](https://app.codacy.com/gh/NicoMedula/Design-Patterns?utm_source=github.com&utm_medium=referral&utm_content=NicoMedula/Design-Patterns&utm_campaign=Badge_Grade)
